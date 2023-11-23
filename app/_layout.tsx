@@ -102,6 +102,16 @@ function RootLayoutNav() {
                     animation: 'fade_from_bottom',
                   }}
                 />
+
+                <Stack.Screen
+                  name='borrowedBooks'
+                  options={{
+                    headerTitleAlign: 'center',
+                    title: 'Borrowed Books',
+                    presentation: 'modal',
+                    animation: 'slide_from_right',
+                  }}
+                />
               </Stack>
 
               <Toast />

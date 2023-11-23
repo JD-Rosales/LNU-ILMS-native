@@ -120,6 +120,59 @@ export const useGetActiveCategories = (): UseQueryResult<Category[]> =>
     onError: (error: ErrorResponse) => error,
   });
 
+export type IssuedBook = {
+  id: number;
+  isbn: string;
+  bookName: string;
+  bookCover?: string;
+  studentId: string;
+  dueDate: string;
+  returnedDate: Date;
+  isReturn: boolean;
+  lateFee: number;
+  createdAt: Date;
+  updatedAt: Date;
+  book: Book;
+};
+
+type User = {
+  id: number;
+  role: 'STUDENT' | 'TEACHER' | 'GRADUATE';
+  email: string;
+  username?: string;
+  profile?: Profile;
+  status: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type Profile = {
+  id: number;
+  fullname?: string;
+  profilePhoto?: string;
+  profilePhotoId?: string;
+  department?: string;
+  course?: string;
+  college?: string;
+  mobile?: string;
+  userId: number;
+};
+
+export type StudentWithBorrowedBook = User & {
+  borrowedBooks: IssuedBook[];
+};
+
+export const useGetStudentBorrowedBooks = (
+  id?: string
+): UseQueryResult<StudentWithBorrowedBook> => {
+  const getStudentBorrowedBooks = () =>
+    request({ url: `/user/borrowed_books/${id}` });
+
+  return useQuery(['student', 'borrowed', 'books'], getStudentBorrowedBooks, {
+    onError: (error: ErrorResponse) => error,
+  });
+};
+
 type ErrorResponse = {
   message?: string;
 };

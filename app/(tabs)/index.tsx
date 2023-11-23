@@ -1,4 +1,10 @@
-import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+  Pressable,
+} from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Colors from '../../constants/Colors';
 import { InterText } from '../../components/StyledText';
@@ -17,6 +23,7 @@ import {
 } from '../../hooks/useDashboard';
 import { useVerifyToken } from '../../hooks/useAuth';
 import { format, parseISO, differenceInDays, isAfter } from 'date-fns';
+import { Link } from 'expo-router';
 
 export default function TabHomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
@@ -167,19 +174,21 @@ export default function TabHomeScreen() {
             </InterText>
           </View>
 
-          <View style={[styles.card]}>
-            <CardIcon name='calendar-times-o' size={60} color='green' />
+          <Link href='/borrowedBooks' asChild>
+            <Pressable style={styles.card}>
+              <CardIcon name='calendar-times-o' size={60} color='green' />
 
-            <InterText
-              style={[styles.cardText, { color: 'green', marginTop: 5 }]}
-            >
-              {myTotalBorrowedBooks.data}
-            </InterText>
+              <InterText
+                style={[styles.cardText, { color: 'green', marginTop: 5 }]}
+              >
+                {myTotalBorrowedBooks.data}
+              </InterText>
 
-            <InterText style={[styles.cardText, { color: 'green' }]}>
-              Borrowed Books
-            </InterText>
-          </View>
+              <InterText style={[styles.cardText, { color: 'green' }]}>
+                Borrowed Books
+              </InterText>
+            </Pressable>
+          </Link>
         </View>
 
         {requestedBook.data && (
