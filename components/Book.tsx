@@ -12,7 +12,7 @@ import { InterText } from './StyledText';
 import {
   useGetBook,
   useRequestBook,
-  useCancelRequest,
+  useChangeRequestStatus,
   useGetRequestedBook,
   useGetUnreturnedBook,
 } from '../hooks/useBook';
@@ -21,9 +21,11 @@ import Colors from '../constants/Colors';
 import { useEffect, useState } from 'react';
 
 const Book = ({
+  requestId,
   bookId,
   type,
 }: {
+  requestId?: number;
   bookId: number;
   type: 'request' | 'unreturn' | 'cancel';
 }) => {
@@ -31,7 +33,7 @@ const Book = ({
   const auth = useVerifyToken();
   const book = useGetBook(bookId);
   const requestBook = useRequestBook();
-  const cancelRequest = useCancelRequest();
+  const cancelRequest = useChangeRequestStatus();
   const requestedBook = useGetRequestedBook();
   const unreturnedBook = useGetUnreturnedBook();
 
@@ -43,7 +45,12 @@ const Book = ({
 
   const handleCancelRequest = () => {
     const id = auth.data?.id;
-    cancelRequest.mutate({ bookId, userId: id ?? 0 });
+    cancelRequest.mutate({
+      id: requestId ?? 0,
+      bookId,
+      userId: id ?? 0,
+      status: 'CANCELLED',
+    });
   };
 
   const handleRequestBook = () => {

@@ -209,7 +209,11 @@ export default function TabHomeScreen() {
               Pending Book Request...
             </InterText>
 
-            <Book bookId={requestedBook.data.book.id} type='cancel' />
+            <Book
+              requestId={requestedBook.data.id}
+              bookId={requestedBook.data.book.id}
+              type='cancel'
+            />
             <View style={styles.textContainer}>
               <InterText style={[styles.text, styles.heading]}>
                 Status:
@@ -217,7 +221,11 @@ export default function TabHomeScreen() {
 
               <InterText style={[styles.text, styles.description]}>
                 {`${
-                  requestedBook.data.isApproved ? 'Approved' : 'Pending Request'
+                  requestedBook.data?.status === 'PENDING'
+                    ? 'Pending Request'
+                    : requestedBook.data?.status === 'FORPICKUP'
+                    ? 'Approved (Ready for pickup)'
+                    : ''
                 }`}
               </InterText>
             </View>
