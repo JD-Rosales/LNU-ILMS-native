@@ -198,7 +198,12 @@ export default function TabHomeScreen() {
                 styles.text,
                 {
                   fontSize: 18,
-                  color: Colors['light'].primary,
+                  color:
+                    requestedBook.data?.status === 'DISAPPROVED'
+                      ? 'red'
+                      : requestedBook.data?.status === 'FORPICKUP'
+                      ? 'green'
+                      : Colors['light'].primary,
                   fontWeight: '700',
                   fontStyle: 'italic',
                   marginBottom: 8,
@@ -206,7 +211,11 @@ export default function TabHomeScreen() {
                 },
               ]}
             >
-              Pending Book Request...
+              {requestedBook.data?.status === 'DISAPPROVED'
+                ? 'Disapproved Book Request'
+                : requestedBook.data?.status === 'FORPICKUP'
+                ? 'Approved (Ready for pickup)'
+                : 'Pending Book Request'}
             </InterText>
 
             <Book
@@ -219,14 +228,25 @@ export default function TabHomeScreen() {
                 Status:
               </InterText>
 
-              <InterText style={[styles.text, styles.description]}>
-                {`${
-                  requestedBook.data?.status === 'PENDING'
-                    ? 'Pending Request'
-                    : requestedBook.data?.status === 'FORPICKUP'
-                    ? 'Approved (Ready for pickup)'
-                    : ''
-                }`}
+              <InterText
+                style={[
+                  styles.text,
+                  styles.description,
+                  {
+                    color:
+                      requestedBook.data?.status === 'DISAPPROVED'
+                        ? 'red'
+                        : requestedBook.data?.status === 'FORPICKUP'
+                        ? 'green'
+                        : Colors['light'].primary,
+                  },
+                ]}
+              >
+                {requestedBook.data?.status === 'DISAPPROVED'
+                  ? 'Disapproved'
+                  : requestedBook.data?.status === 'FORPICKUP'
+                  ? 'Approved (Ready for pickup)'
+                  : 'Pending'}
               </InterText>
             </View>
 

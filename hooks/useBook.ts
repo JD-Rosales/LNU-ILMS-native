@@ -59,6 +59,7 @@ type BookRequestResponse = {
   id: number;
   book: Book;
   status: RequestStatusType;
+  isCancelled: boolean;
   requestDate: Date;
   updatedAt: Date;
 };
@@ -79,7 +80,6 @@ type UnreturnedBook = {
 export type RequestStatusType =
   | 'PENDING'
   | 'DISAPPROVED'
-  | 'CANCELLED'
   | 'FORPICKUP'
   | 'RELEASED';
 
@@ -154,6 +154,15 @@ export const useRequestBook = () =>
   useMutation(requestBook, {
     onError: (error: ErrorResponse) => error,
   });
+
+const cancelRequest = (data: { requestId: number }) =>
+  request({ url: '/book/cancel_request', method: 'put', data });
+
+export const useCancelRequest = () => {
+  return useMutation(cancelRequest, {
+    onError: (error: ErrorResponse) => error,
+  });
+};
 
 const changeRequestStatus = (data: {
   id: number;
