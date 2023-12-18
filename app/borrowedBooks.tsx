@@ -133,6 +133,7 @@ export default function ModalScreen() {
                     book.dueDate,
                     book.lateFee
                   ).toFixed(2)}`}
+                  {book.lateFee > 0 && ' (Paid)'}
                 </InterText>
               </View>
             </View>
